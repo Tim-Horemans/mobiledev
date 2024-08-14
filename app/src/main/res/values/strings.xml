@@ -52,4 +52,6 @@
     <string name="open_nav">Open Navigation Drawer</string>
     <string name="close_nav">Close Navigation Drawer</string>
     <string name="title_activity_nav_bar">NavBar</string>
+    <string name="title_activity_start">StartActivity</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>

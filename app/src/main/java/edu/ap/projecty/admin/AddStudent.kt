@@ -6,7 +6,6 @@ import android.widget.Toast
 import edu.ap.projecty.FakeStudentDatabase
 import edu.ap.projecty.R
 import edu.ap.projecty.databinding.ActivityAddStudentBinding
-import edu.ap.projecty.databinding.OverviewExamsLayoutBinding
 import edu.ap.projecty.model.Student
 
 class AddStudent : AppCompatActivity(){

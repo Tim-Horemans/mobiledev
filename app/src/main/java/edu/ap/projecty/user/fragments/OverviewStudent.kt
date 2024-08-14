@@ -1,4 +1,4 @@
-package edu.ap.projecty.user
+package edu.ap.projecty.user.fragments
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

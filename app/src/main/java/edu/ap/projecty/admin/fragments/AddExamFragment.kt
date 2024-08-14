@@ -1,32 +1,42 @@
-package edu.ap.projecty.admin
+package edu.ap.projecty.admin.fragments
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import edu.ap.projecty.FakeExamDatabase
+import edu.ap.projecty.R
+import edu.ap.projecty.admin.AddQuestionToExam
 import edu.ap.projecty.databinding.ActivityAddExamBinding
+import edu.ap.projecty.databinding.FragmentAddExamBinding
 import edu.ap.projecty.model.Exam
 import edu.ap.projecty.model.MultipleChoiceQuestion
 import edu.ap.projecty.model.Question
 import edu.ap.projecty.repository.ExamViewModel
-import edu.ap.projecty.repository.StudentViewModel
 
-class AddExam : AppCompatActivity() {
 
-    private lateinit var binding: ActivityAddExamBinding
+class AddExamFragment : Fragment() {
+
+    private var _binding: ActivityAddExamBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var viewModel: ExamViewModel
     private lateinit var exam: Exam
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityAddExamBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = ActivityAddExamBinding.inflate(inflater, container, false)
+        val view = binding.root
 
         viewModel = ViewModelProvider(this).get(ExamViewModel::class.java)
         exam = Exam()
@@ -39,6 +49,8 @@ class AddExam : AppCompatActivity() {
         binding.button4.setOnClickListener {
             openAddQuestionToExamActivity()
         }
+
+        return view
     }
 
     private fun initializeResultLauncher() {
@@ -52,7 +64,7 @@ class AddExam : AppCompatActivity() {
     }
 
     private fun openAddQuestionToExamActivity() {
-        val intent = Intent(this, AddQuestionToExam::class.java)
+        val intent = Intent(requireContext(), AddQuestionToExam::class.java)
         resultLauncher.launch(intent)
     }
 
@@ -61,8 +73,6 @@ class AddExam : AppCompatActivity() {
         if (examName.isNotBlank()) {
             exam.name = examName
             viewModel.addExam(exam)
-        } else {
-            showToast("Exam name cannot be empty.")
         }
     }
 
@@ -83,7 +93,8 @@ class AddExam : AppCompatActivity() {
         }
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
