@@ -13,6 +13,29 @@
         android:theme="@style/Theme.Projecty"
         tools:targetApi="31">
         <activity
+            android:name=".NavBar"
+            android:exported="false"
+            android:label="@string/title_activity_nav_bar"
+            android:theme="@style/Theme.Projecty" />
+        <activity
+            android:name=".admin.AddQuestionToExam"
+            android:exported="false" />
+        <activity android:name=".admin.fragments.NewExamQuestion" />
+        <activity
+            android:name=".admin.AddExam"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AddStudent"
+            android:exported="false" />
+        <activity
+            android:name=".user.OverviewStudent"
+            android:exported="false" />
+        <activity
+            android:name=".user.OverviewExams"
+            android:exported="false"
+            android:label="@string/title_activity_overview_exams"
+            android:theme="@style/Theme.Projecty" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"

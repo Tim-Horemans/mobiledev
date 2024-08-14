@@ -1,46 +1,39 @@
 package edu.ap.projecty
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import edu.ap.projecty.ui.theme.ProjectyTheme
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
+import edu.ap.projecty.admin.AddExam
+import edu.ap.projecty.databinding.MainLayoutBinding
+import edu.ap.projecty.user.OverviewExams
 
-class MainActivity : ComponentActivity() {
+
+class MainActivity : ComponentActivity()  {
+
+    private lateinit var mainBinding: MainLayoutBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            ProjectyTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
-            }
+        mainBinding = MainLayoutBinding.inflate(layoutInflater)
+        val view = mainBinding.root
+        setContentView(view)
+
+        mainBinding.button.setOnClickListener {
+            val intent = Intent(this@MainActivity, OverviewExams::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        mainBinding.button2.setOnClickListener {
+            val intent = Intent(this@MainActivity, AddExam::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ProjectyTheme {
-        Greeting("Android")
-    }
-}

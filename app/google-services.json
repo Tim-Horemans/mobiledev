@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "794583043423",
+    "project_id": "exam-531d9",
+    "storage_bucket": "exam-531d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794583043423:android:6e2df79b1b44a816aebaea",
+        "android_client_info": {
+          "package_name": "edu.ap.projecty"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgkE48clOjI1HCcM5AX0duJt_Xy3gb9hU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
