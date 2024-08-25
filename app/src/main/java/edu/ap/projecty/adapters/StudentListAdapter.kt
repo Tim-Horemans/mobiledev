@@ -10,9 +10,10 @@ import edu.ap.projecty.model.Exam
 import edu.ap.projecty.model.Student
 
 class StudentListAdapter (
-    private val dataSet: List<Student>,
-    private val onItemClick: (Exam) -> Unit
+    private var dataSet: List<Student>,
+    private val onItemClick: (Student) -> Unit
 ) : RecyclerView.Adapter<StudentListAdapter.ViewHolder>() {
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val buttonExam: Button = view.findViewById(R.id.itemButton)
     }
@@ -24,12 +25,16 @@ class StudentListAdapter (
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val exam = dataSet[position]
-        viewHolder.buttonExam.text = exam.name
+        val student = dataSet[position]
+        viewHolder.buttonExam.text = student.name
 
-        //viewHolder.buttonExam.setOnClickListener {
-        //    onItemClick(student)
-        //}
+        viewHolder.buttonExam.setOnClickListener {
+            onItemClick(student)
+        }
+    }
+    fun updateStudents(newStudents: List<Student>) {
+        dataSet = newStudents
+        notifyDataSetChanged()
     }
 
     override fun getItemCount() = dataSet.size

@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import edu.ap.projecty.R
 import edu.ap.projecty.admin.fragments.AddExamFragment
+import edu.ap.projecty.admin.fragments.AddStudentFragment
+import edu.ap.projecty.admin.fragments.ManageStudentFragment
 import edu.ap.projecty.databinding.ActivityHomeAdminBinding
 import edu.ap.projecty.databinding.HomeUserActivityBinding
 
@@ -18,6 +20,10 @@ class HomeAdminActivity : AppCompatActivity() {
         binding.addExam.setOnClickListener {
             replaceFragment(AddExamFragment())
         }
+
+        binding.studentNav.setOnClickListener {
+            replaceFragment(ManageStudentFragment())
+        }
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -25,4 +31,6 @@ class HomeAdminActivity : AppCompatActivity() {
             .replace(R.id.frameLayout4, fragment)
             .commit()
     }
+
+
 }

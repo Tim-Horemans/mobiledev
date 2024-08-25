@@ -1,30 +1,34 @@
 package edu.ap.projecty.user.fragments
 
-import ExamListAdapter
-import android.content.Intent
+import edu.ap.projecty.adapters.ExamListAdapter
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import edu.ap.projecty.FakeExamDatabase
 import edu.ap.projecty.R
 import edu.ap.projecty.databinding.FragmentOverviewExamsBinding
+import edu.ap.projecty.model.Student
+import edu.ap.projecty.repository.ExamViewModel
 
 
-class OverviewExamsFragment : Fragment() {
+class OverviewExamsFragment : Fragment(){
 
     private lateinit var examAdapter: ExamListAdapter
+    private lateinit var examViewModel: ExamViewModel
     private var _binding: FragmentOverviewExamsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentOverviewExamsBinding.inflate(inflater, container, false)
         val view = binding.root
+        examViewModel = ViewModelProvider(this).get(ExamViewModel::class.java)
 
         setupRecyclerView()
 
@@ -32,18 +36,32 @@ class OverviewExamsFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        binding.recyclerView2.layoutManager = LinearLayoutManager(requireContext())
-        val examList = FakeExamDatabase.getAllExams()
-
-        examAdapter = ExamListAdapter(examList) { exam ->
-            // Handle click event here, e.g., navigate to another fragment or activity
-            // Example: Navigate to OverviewStudentFragment or startActivity
-            // val intent = Intent(requireContext(), OverviewStudent::class.java)
-            // intent.putExtra("EXAM", exam)
-            // startActivity(intent)
+        examAdapter = ExamListAdapter(emptyList()) { exam ->
+            val fragment = SelectStudentFragment()
+            fragment.arguments = Bundle().apply {
+                putString("EXAM_ID", exam.key)
+            }
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.frameLayout3, fragment)
+                .addToBackStack(null)
+                .commit()
+           //val bundle = Bundle().apply {
+           //    putSerializable("Exam", exam)
+           //}
+           //val fragment = SolveExamFragment().apply {
+           //    arguments = bundle
+           //}
+           //requireActivity().supportFragmentManager.beginTransaction()
+           //    .replace(R.id.frameLayout3, fragment)
+           //    .addToBackStack(null)
+           //    .commit()
         }
 
+        binding.recyclerView2.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView2.adapter = examAdapter
+        examViewModel.getExams().observe(viewLifecycleOwner) { examList ->
+            examAdapter.updateExams(examList)
+        }
     }
 
     override fun onDestroyView() {

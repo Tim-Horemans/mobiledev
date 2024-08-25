@@ -8,14 +8,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
-import edu.ap.projecty.R
 import edu.ap.projecty.admin.AddQuestionToExam
 import edu.ap.projecty.databinding.ActivityAddExamBinding
-import edu.ap.projecty.databinding.FragmentAddExamBinding
 import edu.ap.projecty.model.Exam
 import edu.ap.projecty.model.MultipleChoiceQuestion
 import edu.ap.projecty.model.Question
@@ -81,11 +78,11 @@ class AddExamFragment : Fragment() {
             is MultipleChoiceQuestion -> {
                 Log.i("AddExam", "Received MultipleChoiceQuestion: ${question.question}")
                 Log.i("AddExam", "Possible answers: ${question.answers.joinToString()}")
-                exam.question.add(question)
+                exam.closedQuestion.add(question)
             }
             is Question -> {
                 Log.i("AddExam", "Received SimpleQuestion: ${question.question}")
-                exam.question.add(question)
+                exam.openQuestions.add(question)
             }
             null -> {
                 Log.i("AddExam", "No valid question result returned")

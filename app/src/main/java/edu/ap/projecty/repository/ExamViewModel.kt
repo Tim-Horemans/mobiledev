@@ -14,21 +14,24 @@ class ExamViewModel : ViewModel() {
     private val exams: MutableLiveData<List<Exam>> = MutableLiveData()
     fun getExams(): LiveData<List<Exam>> = exams
 
-    init {
+     init {
         loadExams()
     }
 
     private fun loadExams() {
-        val reference = FirebaseDatabaseManager.getExamReference("exams") // Update path as needed
+        val reference = FirebaseDatabaseManager.getExamReference()
 
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val examList = mutableListOf<Exam>()
                 for (examSnapshot in snapshot.children) {
                     val exam = examSnapshot.getValue(Exam::class.java)
+                    if (exam != null) {
+                        exam.key = examSnapshot.key.toString()
+                    }
                     exam?.let { examList.add(it) }
                 }
-                exams.value = examList.toList() // Convert MutableList to List before setting value
+                exams.value = examList.toList()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -37,8 +40,29 @@ class ExamViewModel : ViewModel() {
         })
     }
 
+    fun loadExamWithId(examId: String): LiveData<Exam> {
+        val liveData = MutableLiveData<Exam>()
+        val reference = FirebaseDatabaseManager.getExamReference().child(examId)
+
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val exam = snapshot.getValue(Exam::class.java)
+                if (exam != null) {
+                    liveData.value = exam
+                } else {
+                    liveData.value = null
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("ExamViewModel", "Error loading exam: ${error.message}")
+            }
+        })
+
+        return liveData
+    }
     fun addExam(exam: Exam) {
-        val reference = FirebaseDatabaseManager.getExamReference("exams") // Update path as needed
+        val reference = FirebaseDatabaseManager.getExamReference()
         val examId = reference.push().key ?: return
 
         reference.child(examId).setValue(exam)
@@ -49,4 +73,6 @@ class ExamViewModel : ViewModel() {
                 Log.e("ExamViewModel", "Failed to add exam: ${exception.message}")
             }
     }
+
+
 }

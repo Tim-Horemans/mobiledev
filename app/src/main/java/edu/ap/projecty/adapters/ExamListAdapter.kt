@@ -1,3 +1,5 @@
+package edu.ap.projecty.adapters
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +9,7 @@ import edu.ap.projecty.R
 import edu.ap.projecty.model.Exam
 
 class ExamListAdapter(
-    private val dataSet: List<Exam>,
+    private var dataSet: List<Exam>,
     private val onItemClick: (Exam) -> Unit
 ) : RecyclerView.Adapter<ExamListAdapter.ViewHolder>() {
 
@@ -31,4 +33,9 @@ class ExamListAdapter(
     }
 
     override fun getItemCount() = dataSet.size
+
+    fun updateExams(newExams: List<Exam>) {
+        dataSet = newExams
+        notifyDataSetChanged()
+    }
 }
