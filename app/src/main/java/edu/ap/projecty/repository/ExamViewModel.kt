@@ -19,53 +19,44 @@ class ExamViewModel : ViewModel() {
     }
 
     private fun loadExams() {
-        val reference = FirebaseDatabaseManager.getExamReference()
+        val reference = FirebaseDatabaseManager.getExamCollectionReference()
 
-        reference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
+        reference.addSnapshotListener { snapshot, error ->
+            if (snapshot != null && !snapshot.isEmpty) {
                 val examList = mutableListOf<Exam>()
-                for (examSnapshot in snapshot.children) {
-                    val exam = examSnapshot.getValue(Exam::class.java)
+                for (document in snapshot.documents) {
+                    val exam = document.toObject(Exam::class.java)
                     if (exam != null) {
-                        exam.key = examSnapshot.key.toString()
+                        exam.key = document.id // Assign the document ID to the exam's key
                     }
                     exam?.let { examList.add(it) }
                 }
-                exams.value = examList.toList()
+                exams.value = examList.toList() // Assigning the list to the MutableLiveData
+            } else {
+                Log.d("Firestore", "No data found")
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("ExamViewModel", "Error loading exams: ${error.message}")
-            }
-        })
+        }
     }
 
     fun loadExamWithId(examId: String): LiveData<Exam> {
         val liveData = MutableLiveData<Exam>()
-        val reference = FirebaseDatabaseManager.getExamReference().child(examId)
 
-        reference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val exam = snapshot.getValue(Exam::class.java)
-                if (exam != null) {
-                    liveData.value = exam
-                } else {
-                    liveData.value = null
-                }
+        val examDocumentReference = FirebaseDatabaseManager.getExamCollectionReference().document(examId)
+        examDocumentReference.addSnapshotListener { snapshot, error ->
+            if (snapshot != null && snapshot.exists()) {
+                val exam = snapshot.toObject(Exam::class.java)
+                liveData.postValue(exam)
+            } else {
+                liveData.postValue(null)
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("ExamViewModel", "Error loading exam: ${error.message}")
-            }
-        })
+        }
 
         return liveData
     }
-    fun addExam(exam: Exam) {
-        val reference = FirebaseDatabaseManager.getExamReference()
-        val examId = reference.push().key ?: return
 
-        reference.child(examId).setValue(exam)
+    fun addExam(exam: Exam){
+        val reference = FirebaseDatabaseManager.getExamCollectionReference()
+        reference.add(exam)
             .addOnSuccessListener {
                 Log.i("ExamViewModel", "Exam added successfully")
             }
@@ -73,6 +64,4 @@ class ExamViewModel : ViewModel() {
                 Log.e("ExamViewModel", "Failed to add exam: ${exception.message}")
             }
     }
-
-
 }

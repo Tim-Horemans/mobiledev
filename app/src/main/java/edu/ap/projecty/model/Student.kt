@@ -5,5 +5,5 @@ import java.io.Serializable
 data class Student(
     var key : String = "",
     val name: String = "",
-    val exams: Map<String, String> = mapOf()
+    val exams: List<String> = listOf()
 ) : Serializable

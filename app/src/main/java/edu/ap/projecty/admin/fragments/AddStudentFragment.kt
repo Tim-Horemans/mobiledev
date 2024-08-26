@@ -34,7 +34,7 @@ class AddStudentFragment : Fragment() {
     private fun addStudent(){
         val name = binding.editTextText.text
         if (name.isNotEmpty()) {
-            viewModelStudent.addStudent(Student(name.toString()))
+            viewModelStudent.addStudent(Student(name = name.toString()))
         }
     }
 }

@@ -1,5 +1,6 @@
 package edu.ap.projecty.user.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import edu.ap.projecty.adapters.SolveExamAdapter
 import edu.ap.projecty.databinding.FragmentSolveExamBinding
 import edu.ap.projecty.model.Exam
+import edu.ap.projecty.model.SolvedExam
 import edu.ap.projecty.repository.SolveExamViewModel
+import edu.ap.projecty.service.SolveExamService
 
 
 class SolveExamFragment : Fragment() {
@@ -18,13 +21,18 @@ class SolveExamFragment : Fragment() {
     private lateinit var _binding : FragmentSolveExamBinding
     private lateinit var solveExamAdapter : SolveExamAdapter
     private lateinit var solveExamViewModel: SolveExamViewModel
+    private lateinit var examService: SolveExamService
+    private lateinit var studentId: String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSolveExamBinding.inflate(inflater, container, false)
+        examService = SolveExamService()
 
         val exam = arguments?.getSerializable("Exam") as Exam
+        studentId = arguments?.getString("studentId") as String
+
         solveExamViewModel = ViewModelProvider(this).get(SolveExamViewModel::class.java)
 
         val openQuestions = exam.openQuestions
@@ -33,9 +41,11 @@ class SolveExamFragment : Fragment() {
         solveExamAdapter = SolveExamAdapter(allQuestions, solveExamViewModel)
         setupRecyclerView()
 
+        requireActivity().startService(Intent(context, examService::class.java))
         _binding.btnSubmit.setOnClickListener {
             val answers = solveExamAdapter.getUserAnswers()
-            solveExamViewModel.submitExam()
+            solveExamViewModel.submitExam(SolvedExam(exam.key, studentId, answers))
+            examService.collectAndSendData(mapOf<String, String>(), "locatie")
         }
 
         return _binding.root

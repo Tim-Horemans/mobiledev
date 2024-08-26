@@ -16,7 +16,6 @@ class DetailStudentActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailStudentBinding
     private lateinit var examsViewModel: ExamViewModel
     private lateinit var studentViewModel: StudentViewModel
-    private var exams: List<Exam> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,9 +49,9 @@ class DetailStudentActivity : AppCompatActivity() {
         }
 
         student?.let {
-            studentViewModel.getExamsFromStudent(it.exams.values.toList()).observe(this) { linkedExams ->
-                adapterLinkedExam.updateExams(linkedExams)
-            }
+            //studentViewModel.getExamsFromStudent(it.exams).observe(this) { linkedExams ->
+            //    adapterLinkedExam.updateExams(linkedExams)
+            //}
         }
 
         binding.ivAddExam.setOnClickListener {

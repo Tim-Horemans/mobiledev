@@ -45,7 +45,7 @@ class SelectStudentFragment : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
 
         selectUserAdapter = SelectUserAdapter(studentList) { selectedStudent ->
-            navigateToExam()
+            navigateToExam(selectedStudent.key)
         }
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -56,11 +56,12 @@ class SelectStudentFragment : Fragment() {
         return view
     }
 
-    private fun navigateToExam() {
+    private fun navigateToExam(studentId: String) {
         examViewModel.loadExamWithId(examId).observe(viewLifecycleOwner, Observer { exam ->
             if (exam != null) {
                 val bundle = Bundle().apply {
                     putSerializable("Exam", exam)
+                    putString("studentId", studentId)
                 }
 
                 val fragment = SolveExamFragment().apply {
@@ -72,7 +73,6 @@ class SelectStudentFragment : Fragment() {
                     .addToBackStack(null)
                     .commit()
             } else {
-
                 Toast.makeText(requireContext(), "No exam for student", Toast.LENGTH_SHORT).show()
             }
         })

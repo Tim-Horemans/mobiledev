@@ -25,7 +25,6 @@ class OverviewStudentFragment : Fragment() {
         _binding = FragmentOverviewStudentBinding.inflate(inflater, container, false)
         val view = binding.root
         viewmodelStudent = ViewModelProvider(this).get(StudentViewModel::class.java)
-
         setupRecyclerView()
         return view
     }

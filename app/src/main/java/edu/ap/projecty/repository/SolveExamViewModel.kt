@@ -5,54 +5,37 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import edu.ap.projecty.model.Question
+import edu.ap.projecty.model.SolvedExam
 import edu.ap.projecty.model.UserAnswer
+import java.util.Dictionary
 
 class SolveExamViewModel: ViewModel() {
 
-    private val _userAnswers = MutableLiveData<MutableList<UserAnswer>>()
-    val userAnswers: LiveData<MutableList<UserAnswer>> get() = _userAnswers
-
-    private val _examState = MutableLiveData<ExamState>()
-    val examState: LiveData<ExamState> get() = _examState
+    private val _userAnswers = MutableLiveData<MutableMap<String, String>>()
+    val userAnswers: LiveData<MutableMap<String, String>> get() = _userAnswers
 
     init {
-        _userAnswers.value = mutableListOf()
-        _examState.value = ExamState.NOT_STARTED
+        _userAnswers.value = mutableMapOf()
     }
 
     fun addAnswer(question: String, answerText: String) {
-        _userAnswers.value?.add(UserAnswer(question, answerText))
+        _userAnswers.value?.let { answers ->
+            answers[question] = answerText
+            _userAnswers.value = answers
+        }
     }
 
-    fun submitExam() {
+    fun submitExam(solvedExam: SolvedExam) {
         _userAnswers.value?.let { answers ->
-            // Log each answer
             for (answer in answers) {
-                Log.d("SolveExamViewModel", "Question: ${answer.question}, Answer: ${answer.answer}")
+                Log.d("SolveExamViewModel", "Question: ${answer.key}, Answer: ${answer.value}")
             }
         }
 
-       //_examState.value = ExamState.SUBMITTED
-       //CoroutineScope(Dispatchers.IO).launch {
-       //    userAnswers.value?.let {
-       //        answerRepository.submitAnswers(it)
-       //    }
-       //}
+
+        val reference = FirebaseDatabaseManager.getSolvedExamReference()
+        reference.push().setValue(solvedExam)
     }
 
-    fun startExam() {
-        _examState.value = ExamState.ONGOING
-    }
 
-    fun finishExam() {
-        _examState.value = ExamState.FINISHED
-        submitExam()
-    }
-}
-
-enum class ExamState {
-    NOT_STARTED,
-    ONGOING,
-    FINISHED,
-    SUBMITTED
 }

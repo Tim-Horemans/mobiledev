@@ -17,7 +17,7 @@ import java.util.Objects
 
 class AddQuestionToExam : AppCompatActivity() {
     private lateinit var binding: ActivityAddQuestionToExamBinding
-    private lateinit var question: Question
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddQuestionToExamBinding.inflate(layoutInflater)
@@ -63,8 +63,8 @@ class AddQuestionToExam : AppCompatActivity() {
 
         } else if (openQuestionFragment != null && openQuestionFragment.isVisible) {
             val result = openQuestionFragment.getResult()
-            val question = Question(result)
-            Log.i("result in add quest", result)
+            val question = Question(result.first, result.second)
+            Log.i("result in add quest", result.first)
             resultIntent.putExtra("Result", question)
         }
          else {

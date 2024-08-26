@@ -20,8 +20,9 @@ class OpenQuestion : Fragment() {
         return _binding?.root
     }
 
-    fun getResult(): String {
-        val questionResult = _binding?.inputQuestion?.text
-        return questionResult.toString()
+    fun getResult(): Pair<String, String> {
+        val questionResult = _binding?.inputQuestion?.text.toString()
+        val correctAnswer = _binding?.inputQuestion2?.text.toString()
+        return Pair(questionResult, correctAnswer)
     }
 }
