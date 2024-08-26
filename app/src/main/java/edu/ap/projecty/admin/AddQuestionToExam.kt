@@ -34,7 +34,6 @@ class AddQuestionToExam : AppCompatActivity() {
 
         binding.submitQuestion.setOnClickListener {
             handleFragmentData()
-
         }
     }
 
@@ -57,7 +56,7 @@ class AddQuestionToExam : AppCompatActivity() {
 
         if (closedQuestionFragment != null && closedQuestionFragment.isVisible) {
             val result = closedQuestionFragment.getResult()
-            val question = MultipleChoiceQuestion(result.second, result.first)
+            val question = MultipleChoiceQuestion(result.second, result.first, result.third)
             Log.i("result in add quest", result.toString())
             resultIntent.putExtra("Result", question)
 

@@ -23,4 +23,6 @@ object FirebaseDatabaseManager {
     fun getStudentCollectionReference() = firestore.collection("student")
 
     fun getExamCollectionReference() = firestore.collection("exam")
+
+    fun getSolvedExamCollectionReference() = firestore.collection("solvedExam")
 }

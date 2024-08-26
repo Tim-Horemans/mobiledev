@@ -44,8 +44,8 @@ class SolveExamFragment : Fragment() {
         requireActivity().startService(Intent(context, examService::class.java))
         _binding.btnSubmit.setOnClickListener {
             val answers = solveExamAdapter.getUserAnswers()
-            solveExamViewModel.submitExam(SolvedExam(exam.key, studentId, answers))
-            examService.collectAndSendData(mapOf<String, String>(), "locatie")
+            solveExamViewModel.submitExam(exam, studentId)
+            examService.collectData( "locatie")
         }
 
         return _binding.root

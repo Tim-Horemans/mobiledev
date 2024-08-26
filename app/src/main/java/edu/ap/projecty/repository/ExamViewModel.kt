@@ -27,11 +27,11 @@ class ExamViewModel : ViewModel() {
                 for (document in snapshot.documents) {
                     val exam = document.toObject(Exam::class.java)
                     if (exam != null) {
-                        exam.key = document.id // Assign the document ID to the exam's key
+                        exam.key = document.id
                     }
                     exam?.let { examList.add(it) }
                 }
-                exams.value = examList.toList() // Assigning the list to the MutableLiveData
+                exams.value = examList.toList()
             } else {
                 Log.d("Firestore", "No data found")
             }
@@ -45,6 +45,9 @@ class ExamViewModel : ViewModel() {
         examDocumentReference.addSnapshotListener { snapshot, error ->
             if (snapshot != null && snapshot.exists()) {
                 val exam = snapshot.toObject(Exam::class.java)
+                if (exam != null) {
+                    exam.key = examDocumentReference.id
+                }
                 liveData.postValue(exam)
             } else {
                 liveData.postValue(null)

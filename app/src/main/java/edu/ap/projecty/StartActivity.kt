@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import edu.ap.projecty.admin.HomeAdminActivity
+import edu.ap.projecty.admin.LoginActivity
 import edu.ap.projecty.databinding.ActivityStartBinding
 import edu.ap.projecty.user.HomeUserActivity
 
@@ -24,7 +25,7 @@ class StartActivity : AppCompatActivity() {
         }
 
         binding.button2.setOnClickListener {
-            val intent = Intent(this@StartActivity, HomeAdminActivity::class.java)
+            val intent = Intent(this@StartActivity, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }

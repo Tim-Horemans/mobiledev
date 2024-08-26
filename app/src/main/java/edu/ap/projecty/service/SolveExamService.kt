@@ -3,13 +3,11 @@ package edu.ap.projecty.service
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import android.os.health.TimerStat
 import android.util.Log
 import java.util.Timer
 import java.util.TimerTask
 
 class SolveExamService : Service() {
-
 
     private val TAG = "ExamDataService"
     private var examDuration = 0L
@@ -32,7 +30,7 @@ class SolveExamService : Service() {
                 examDuration++
                 Log.d(TAG, "Exam duration: $examDuration seconds")
             }
-        }, 0, 1000) // Timer task runs every second
+        }, 0, 1000)
     }
 
     fun stopExamTimer() {
@@ -40,14 +38,11 @@ class SolveExamService : Service() {
         Log.d(TAG, "Exam timer stopped at $examDuration seconds")
     }
 
-    fun collectAndSendData(answers: Map<String, String>, location: String) {
-        // Bundle the data
+    fun collectData(location: String) {
         val examData = mapOf(
-            "answers" to answers,
             "duration" to examDuration,
             "location" to location
         )
-        // Code to send data to backend
         Log.d(TAG, "Sending exam data: $examData")
     }
 

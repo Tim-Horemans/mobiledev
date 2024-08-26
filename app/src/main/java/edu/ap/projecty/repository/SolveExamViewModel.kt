@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import edu.ap.projecty.model.Exam
 import edu.ap.projecty.model.Question
 import edu.ap.projecty.model.SolvedExam
 import edu.ap.projecty.model.UserAnswer
@@ -12,7 +13,6 @@ import java.util.Dictionary
 class SolveExamViewModel: ViewModel() {
 
     private val _userAnswers = MutableLiveData<MutableMap<String, String>>()
-    val userAnswers: LiveData<MutableMap<String, String>> get() = _userAnswers
 
     init {
         _userAnswers.value = mutableMapOf()
@@ -25,17 +25,59 @@ class SolveExamViewModel: ViewModel() {
         }
     }
 
-    fun submitExam(solvedExam: SolvedExam) {
+    fun submitExam(exam: Exam, studentId: String) {
         _userAnswers.value?.let { answers ->
-            for (answer in answers) {
-                Log.d("SolveExamViewModel", "Question: ${answer.key}, Answer: ${answer.value}")
+            for ((question, answer) in answers) {
+                Log.d("SolveExamViewModel", "Question: $question, Answer: $answer")
             }
         }
 
+        val closedQuestions = exam.closedQuestion
+        val openQuestions = exam.openQuestions
 
-        val reference = FirebaseDatabaseManager.getSolvedExamReference()
-        reference.push().setValue(solvedExam)
+        val closedPoints = _userAnswers.value?.let { compareQuestionWithAnswers(closedQuestions, it) } ?: 0
+        val openPoints = _userAnswers.value?.let { compareQuestionWithAnswers(openQuestions, it) } ?: 0
+        val totalPoints = closedPoints + openPoints
+
+        Log.d("SolveExamViewModel", "Total points: $totalPoints")
+
+        postBundeldExam(SolvedExam(exam.key, studentId, totalPoints))
     }
 
+    private fun postBundeldExam(bundeldExam: SolvedExam){
+        val reference = FirebaseDatabaseManager.getSolvedExamCollectionReference()
+        reference.add(bundeldExam)
+    }
+    private fun compareQuestionWithAnswers(question: List<Question>, answer: Map<String, String>): Int {
+        var points = question.size
 
+        for (quest in question) {
+            val questionText = quest.question
+            val questionCorrectAnswer = quest.correctAnswer
+
+            val answer = answer[questionText]
+            if (answer != questionCorrectAnswer)
+                points--
+        }
+
+        return points
+    }
+    fun loadExamWithId(examId: String): LiveData<Exam> {
+        val liveData = MutableLiveData<Exam>()
+
+        val examDocumentReference = FirebaseDatabaseManager.getExamCollectionReference().document(examId)
+        examDocumentReference.addSnapshotListener { snapshot, error ->
+            if (snapshot != null && snapshot.exists()) {
+                val exam = snapshot.toObject(Exam::class.java)
+                if (exam != null) {
+                    exam.key = examDocumentReference.id
+                }
+                liveData.postValue(exam)
+            } else {
+                liveData.postValue(null)
+            }
+        }
+
+        return liveData
+    }
 }

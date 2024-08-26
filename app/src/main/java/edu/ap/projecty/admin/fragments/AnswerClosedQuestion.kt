@@ -46,9 +46,28 @@ class AnswerClosedQuestion : Fragment() {
             if (view is ViewGroup) {
                 val editText = view.findViewById<EditText>(R.id.editTextOption)
                 val answerText = editText.text.toString()
+
                 possibleAnswers.add(answerText)
             }
         }
         return possibleAnswers
+    }
+
+    fun getSelectedRadioButtonText(): String? {
+        for (i in 0 until radioGroup.childCount) {
+            val view = radioGroup.getChildAt(i)
+            if (view is ViewGroup) {
+                val radioButton = view.findViewById<RadioButton>(R.id.radioButtonOption)
+                if (radioButton != null && radioButton.isChecked) {
+                    val editText = view.findViewById<EditText>(R.id.editTextOption)
+                    return editText?.text?.toString()
+                }
+            } else if (view is RadioButton) {
+                if (view.isChecked) {
+                    return view.text.toString()
+                }
+            }
+        }
+        return null
     }
 }

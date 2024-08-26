@@ -6,32 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".admin.fragments.ClosedQuestion">
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Vraag"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.141"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.073" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="7dp"
         android:layout_marginEnd="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11">
+        tools:layout_editor_absoluteY="26dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/questionInput"
-            android:layout_width="374dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="bv 2+2" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -45,7 +32,6 @@
         android:layout_marginEnd="106dp"
         android:text="Antwoorden"
         app:layout_constraintEnd_toStartOf="@+id/addAnswerButton"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
@@ -63,12 +49,22 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/containerAnswers"
         android:name="edu.ap.projecty.admin.fragments.AnswerClosedQuestion"
-        android:layout_width="410dp"
-        android:layout_height="432dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="80dp"
+        app:layout_constraintTop_toBottomOf="@+id/addAnswerButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/selectCorrectAnswerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Selecteer correct antwoord"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
