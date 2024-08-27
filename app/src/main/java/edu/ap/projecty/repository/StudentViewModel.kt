@@ -70,29 +70,27 @@ class StudentViewModel : ViewModel() {
         return liveData
     }
 
-    public fun getExamsFromStudent(examsId: List<String>): LiveData<List<Exam>> {
-        val examReference = FirebaseDatabaseManager.getExamReference()
+    fun getExamsFromStudent(examsId: List<String>): LiveData<List<Exam>> {
+        val examsLiveData = MutableLiveData<List<Exam>>()
         val examsList = mutableListOf<Exam>()
 
+        val examCollection = FirebaseDatabaseManager.getExamCollectionReference()
         for (examId in examsId) {
-            val examRef = examReference.child(examId)
-            examRef.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val exam = snapshot.getValue(Exam::class.java)
-                    if (exam != null) {
-                        if (exam !in examsList) {
+            val examRef = examCollection.document(examId)
+            examRef.get()
+                .addOnSuccessListener { documentSnapshot ->
+                    if (documentSnapshot.exists()) {
+                        val exam = documentSnapshot.toObject(Exam::class.java)
+                        if (exam != null && exam !in examsList) {
                             examsList.add(exam)
+                            examsLiveData.value = examsList
                         }
                     }
-                    examsLiveData.value = examsList
                 }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.e("loadExamsFromStudent", "Error with examId: $examId")
+                .addOnFailureListener { e ->
+                    Log.e("getExamsFromStudent", "Error retrieving exam with ID: $examId", e)
                 }
-            })
         }
-
         return examsLiveData
     }
 

@@ -41,7 +41,7 @@ class SolveExamViewModel: ViewModel() {
 
         Log.d("SolveExamViewModel", "Total points: $totalPoints")
 
-        postBundeldExam(SolvedExam(exam.key, studentId, totalPoints))
+        postBundeldExam(SolvedExam(exam.key, studentId, exam.name,totalPoints))
     }
 
     private fun postBundeldExam(bundeldExam: SolvedExam){

@@ -28,6 +28,10 @@ class AddStudentFragment : Fragment() {
             addStudent()
         }
 
+        binding.submitList.setOnClickListener {
+            addStudents()
+        }
+
         return binding.root
     }
 
@@ -36,5 +40,17 @@ class AddStudentFragment : Fragment() {
         if (name.isNotEmpty()) {
             viewModelStudent.addStudent(Student(name = name.toString()))
         }
+    }
+
+    private fun addStudents(){
+        val namesInput = binding.editTextText2.text.toString()
+        val names = namesInput.split(",").map { it.trim() }
+        for (name in names) {
+            if (name.isNotEmpty()) {
+                viewModelStudent.addStudent(Student(name = name))
+            }
+        }
+
+        binding.editTextText2.text.clear()
     }
 }
