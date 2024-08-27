@@ -1,20 +1,26 @@
 package edu.ap.projecty.admin
 
-import android.R
-import edu.ap.projecty.adapters.ExamListAdapter
-import androidx.appcompat.app.AppCompatActivity
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import edu.ap.projecty.R
+import edu.ap.projecty.adapters.ExamListAdapter
 import edu.ap.projecty.databinding.ActivityDetailStudentBinding
-import edu.ap.projecty.model.Exam
 import edu.ap.projecty.model.SolvedExam
 import edu.ap.projecty.model.Student
 import edu.ap.projecty.repository.ExamViewModel
 import edu.ap.projecty.repository.SolvedExamViewModel
 import edu.ap.projecty.repository.StudentViewModel
+
 
 class DetailStudentActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailStudentBinding
@@ -67,6 +73,10 @@ class DetailStudentActivity : AppCompatActivity() {
             }
         }
 
+        binding.lvSolvedExams.onItemClickListener = OnItemClickListener { arg0, arg1, arg2, arg3 ->
+            showAlertDialog(layoutInflater)
+        }
+
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -91,5 +101,26 @@ class DetailStudentActivity : AppCompatActivity() {
 
     private fun addExamToStudent(examKey: String, studentId: String) {
         studentViewModel.addExamToStudent(examKey, studentId)
+    }
+
+    private fun showAlertDialog(layoutInflater: LayoutInflater) {
+        val inflater = LayoutInflater.from(this)
+        val view = inflater.inflate(R.layout.dialog_solved_exam, null)
+
+        val textView = view.findViewById<TextView>(R.id.dialog_message)
+
+        val builder = AlertDialog.Builder(this)
+            .setView(view)
+            .setCancelable(false)
+            .setPositiveButton("Yes") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setNegativeButton("No") { dialog, _ ->
+                dialog.cancel()
+            }
+
+        // Create and show the dialog
+        val alertDialog = builder.create()
+        alertDialog.show()
     }
 }
