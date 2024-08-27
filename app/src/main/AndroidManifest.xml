@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,16 +19,18 @@
         android:theme="@style/Theme.Projecty"
         tools:targetApi="31">
         <activity
+            android:name=".admin.OverviewExam"
+            android:exported="false" />
+        <activity
+            android:name=".admin.OverviewSolvedExam"
+            android:exported="false"
+            android:label="@string/title_activity_overview_solved_exam"
+            android:theme="@style/Theme.Projecty" />
+        <activity
             android:name=".admin.LoginActivity"
             android:exported="false"
             android:label="@string/title_activity_login"
             android:theme="@style/Theme.Projecty" />
-
-        <service
-            android:name=".service.SolveExamService"
-            android:enabled="true"
-            android:exported="true" />
-
         <activity
             android:name=".admin.DetailStudentActivity"
             android:exported="false" />

@@ -55,4 +55,5 @@
     <string name="title_activity_start">StartActivity</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_overview_solved_exam">OverviewSolvedExam</string>
 </resources>

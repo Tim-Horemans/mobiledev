@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.FrameLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.ap.projecty.R
@@ -19,6 +21,8 @@ class ManageStudentFragment : Fragment() {
     private var _binding: FragmentManageStudentBinding? = null
     private lateinit var studentsViewModel:StudentViewModel
     private lateinit var studentAdapter:StudentListAdapter
+    private lateinit var addStudentContainer: FrameLayout
+
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -27,6 +31,13 @@ class ManageStudentFragment : Fragment() {
     ): View? {
         _binding = FragmentManageStudentBinding.inflate(inflater, container, false)
         studentsViewModel = ViewModelProvider(this).get(StudentViewModel::class.java)
+
+        addStudentContainer = binding.addStudentContainer
+        addStudentContainer.visibility = View.GONE
+
+        binding.toggleButton.setOnClickListener {
+            toggleFrameLayoutVisibility()
+        }
 
         studentAdapter = StudentListAdapter(emptyList()) { student ->
             val intent = Intent(activity, DetailStudentActivity::class.java).apply {
@@ -49,6 +60,14 @@ class ManageStudentFragment : Fragment() {
 
 
         return binding.root
+    }
+
+    private fun toggleFrameLayoutVisibility() {
+        if (addStudentContainer.visibility == View.VISIBLE) {
+            addStudentContainer.visibility = View.GONE
+        } else {
+            addStudentContainer.visibility = View.VISIBLE
+        }
     }
 
     override fun onDestroyView() {

@@ -1,5 +1,6 @@
 package edu.ap.projecty.admin
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import edu.ap.projecty.R
+import edu.ap.projecty.StartActivity
 import edu.ap.projecty.admin.fragments.AddExamFragment
 import edu.ap.projecty.admin.fragments.AddStudentFragment
 import edu.ap.projecty.admin.fragments.ManageStudentFragment
@@ -25,7 +27,6 @@ class HomeAdminActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-        signInTestUser()
 
         binding.addExam.setOnClickListener {
             replaceFragment(AddExamFragment())
@@ -33,6 +34,16 @@ class HomeAdminActivity : AppCompatActivity() {
 
         binding.studentNav.setOnClickListener {
             replaceFragment(ManageStudentFragment())
+        }
+
+        binding.examensButton.setOnClickListener {
+            val intent = Intent(this@HomeAdminActivity, OverviewExam::class.java)
+            startActivity(intent)
+        }
+        binding.exitButton.setOnClickListener {
+            val intent = Intent(this@HomeAdminActivity, StartActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 

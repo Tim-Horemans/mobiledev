@@ -6,6 +6,13 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <Button
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Student(en) toevoegen"
+        android:layout_gravity="center_horizontal"/>
+
     <FrameLayout
         android:id="@+id/addStudentContainer"
         android:layout_width="match_parent"

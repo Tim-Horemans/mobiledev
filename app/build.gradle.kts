@@ -53,6 +53,9 @@ android {
 }
 
 dependencies {
+    //OSM
+    implementation("org.osmdroid:osmdroid-android:6.1.10")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
     implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
     implementation("com.google.firebase:firebase-database")
     implementation ("com.google.firebase:firebase-firestore-ktx:24.0.0")

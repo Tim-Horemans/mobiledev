@@ -1,11 +1,16 @@
 package edu.ap.projecty.model
 
-import java.util.Dictionary
 data class SolvedExam(
-    val examId: String = "",
-    val name: String = "",
+    var examId: String = "",
+    var name: String = "",
     val studentId: String = "",
+    val studentName: String = "",
+    val totalPoints: Int = 0,
+    val totalQuestions: Int = 0,
+    val latitude: String = "",
+    val longtitude: String = "",
+    val elapsedTime: Long = 0L,
     //val questions: Map<String, String>,
     //val userAnswers: Map<String, String>,
-    val totalPoints: Int = 0
+
 )
