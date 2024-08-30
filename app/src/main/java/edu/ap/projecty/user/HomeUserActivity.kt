@@ -26,7 +26,6 @@ class HomeUserActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        //temp nav
         binding.navExams.setOnClickListener {
             replaceFragment(OverviewExamsFragment())
         }

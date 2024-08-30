@@ -10,7 +10,4 @@ data class SolvedExam(
     val latitude: String = "",
     val longtitude: String = "",
     val elapsedTime: Long = 0L,
-    //val questions: Map<String, String>,
-    //val userAnswers: Map<String, String>,
-
 )

@@ -174,7 +174,7 @@ class DetailStudentActivity : AppCompatActivity() {
 
         examsViewModel.getExams().observe(this) { exams ->
             exams?.let {
-                examList = it // Update the global list
+                examList = it
                 examAdapter.clear()
                 examAdapter.addAll(exams.map { exam -> exam.name })
                 examAdapter.notifyDataSetChanged()

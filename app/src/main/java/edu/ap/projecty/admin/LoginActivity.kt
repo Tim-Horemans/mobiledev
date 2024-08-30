@@ -42,7 +42,6 @@ class LoginActivity : AppCompatActivity() {
                     finish()
                 } else {
                     Log.w("LoginActivity", "signInWithEmail:failure", task.exception)
-                    // Show error message
                 }
             }
     }

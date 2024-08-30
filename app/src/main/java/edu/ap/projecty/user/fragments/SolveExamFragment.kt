@@ -71,7 +71,6 @@ class SolveExamFragment : Fragment() {
                 requireActivity().supportFragmentManager.popBackStack()
             } else {
                 Log.i("location", "Location data not available yet")
-                // Notify user to wait for location data
             }
         }
 

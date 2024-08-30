@@ -22,8 +22,8 @@ class LocationHelper(
     private val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity)
 
     private val locationRequest: LocationRequest = LocationRequest.create().apply {
-        interval = 10000 // 10 seconds
-        fastestInterval = 5000 // 5 seconds
+        interval = 10000
+        fastestInterval = 5000
         priority = LocationRequest.PRIORITY_HIGH_ACCURACY
     }
 

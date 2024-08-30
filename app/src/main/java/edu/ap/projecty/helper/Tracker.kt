@@ -16,10 +16,8 @@ class TimeTracker {
 
     fun getElapsedTime(): Long {
         return if (isTracking) {
-            // If still tracking, return time elapsed since start
             System.currentTimeMillis() - startTime
         } else {
-            // Otherwise, return the total time from start to stop
             endTime - startTime
         }
     }

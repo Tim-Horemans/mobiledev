@@ -78,7 +78,6 @@ class ExamViewModel : ViewModel() {
         val examReference = FirebaseDatabaseManager.getExamCollectionReference()
         val studentReference = FirebaseDatabaseManager.getStudentCollectionReference()
 
-        // Fetch exams
         examReference.get()
             .addOnSuccessListener { examSnapshot ->
                 val examsList = mutableListOf<Exam>()
@@ -89,8 +88,6 @@ class ExamViewModel : ViewModel() {
                         examsList.add(it)
                     }
                 }
-
-                // Fetch students
                 studentReference.get()
                     .addOnSuccessListener { studentSnapshot ->
                         val studentMap = mutableMapOf<String, MutableList<Student>>()
@@ -103,7 +100,6 @@ class ExamViewModel : ViewModel() {
                             }
                         }
 
-                        // Map exams to their students
                         val groupedExamsMap = examsList.associateWith { exam ->
                             studentMap[exam.key] ?: emptyList()
                         }
