@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Projecty"
+        tools:targetApi="31">
+        <activity
+            android:name=".admin.OverviewExam"
+            android:exported="false" />
+        <activity
+            android:name=".admin.OverviewSolvedExam"
+            android:exported="false"
+            android:label="@string/title_activity_overview_solved_exam"
+            android:theme="@style/Theme.Projecty" />
+        <activity
+            android:name=".admin.LoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.Projecty" />
+        <activity
+            android:name=".admin.DetailStudentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.HomeAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.HomeUserActivity"
+            android:exported="false"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.Projecty" />
+        <activity
+            android:name=".NavBar"
+            android:exported="false"
+            android:label="@string/title_activity_nav_bar"
+            android:theme="@style/Theme.Projecty" />
+        <activity
+            android:name=".admin.AddQuestionToExam"
+            android:exported="false" />
+        <activity android:name=".admin.fragments.NewExamQuestion" />
+        <activity
+            android:name=".admin.AddExam"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AddStudent"
+            android:exported="false" />
+        <activity
+            android:name=".user.fragments.OverviewStudent"
+            android:exported="false" />
+        <activity
+            android:name=".user.fragments.OverviewExams"
+            android:exported="false"
+            android:label="@string/title_activity_overview_exams"
+            android:theme="@style/Theme.Projecty" />
+        <activity
+            android:name=".StartActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Projecty">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
